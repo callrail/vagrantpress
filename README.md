@@ -1,70 +1,49 @@
-# VagrantPress
+# CallRail Marketing Site VagrantPress
 
 *VagrantPress* is a packaged development environment for developing WordPress themes and modules.  
-I initially created this project to aid in developing child modules for a WordPress blog.
+This repo is intended to serve as a means to quickly set up a development environment for the [CallRail Marketing Site](https://github.com/callrail/marketing-site).
 
-# What's Installed
 
-+ Ubuntu Trusty (14.04)
-+ Wordpress 4.0
-+ Mysql
-+ Php
-+ Phpmyadmin
-+ Subversion
-+ Git
-+ Composer
-+ ~~PEAR~~
-+ Xdebug
-+ PHPUnit - **installed via composer*
-+ phploc - **installed via composer*
-+ phpcpd - **installed via composer*
-+ phpdcd - **installed via composer*
-+ phpcs - **installed via composer*
-+ phpdepend - **installed via composer*
-+ phpmd - **installed via composer*
-+ PHP_CodeBrowser - **installed via composer*
-+ WordPress sniffs for phpcs
-+ WordPress Unit Tests - **installed via composer*
-
-**PEAR removed as support has reached end of life, see [End of Life for PEAR Installation Method](https://github.com/sebastianbergmann/phpunit/wiki/End-of-Life-for-PEAR-Installation-Method)*
-
-# Prerequisites
-
-+ [Vagrant](http://www.vagrantup.com/downloads.html)
-+ [Virtualbox](https://www.virtualbox.org/wiki/Downloads)
-+ [Vagrant Hostsupdater](https://github.com/cogitatio/vagrant-hostsupdater)
+## Prerequisites
++ [Homebrew Cask](https://github.com/caskroom/homebrew-cask) - `brew install caskroom/cask/brew-cask`
++ [Vagrant](http://www.vagrantup.com/downloads.html) - `brew cask install virtualbox`
++ [Virtualbox](https://www.virtualbox.org/wiki/Downloads) - `brew cask install vagrant`
++ [Vagrant Hostsupdater](https://github.com/cogitatio/vagrant-hostsupdater) - `vagrant plugin install vagrant-hostsupdater`
 
 ## Getting Started
 
-This is a fairly simple project to get up and running.  
-The procedure for starting up a working WordPress is as follows:
+In order to get the development environment up and running, there are a few steps that need to be completed (listed below).  As of right now, this is still a fairly manual process, but ideally it will be further automated in the future.
 
-1. Clone the project.  (There’s only master branch.)
-2. Run `vagrant plugin install vagrant-hostsupdater` from command line
-2. Run the command `vagrant up` from the directory
-3. Open your browser to http://vagrantpress.dev
+1. Clone this project.
+2. Clone the [Marketing Site](https://github.com/callrail/marketing-site) into a directory adjacent to this project.
+3. Obtain a copy of the Production database from WP Engine.  Rename and place here: `puppet/modules/wordpress/files/wordpress-db.sql`.
+4. Obtain a copy of `wp-config.php` from the Production FTP server.  Rename and place here: `puppet/modules/wordpress/files/wp-config.php`.
+5. Modify `wp-config.php` to set the values below. You should see each of these lines in the config file, but with different values on the right-hand side.  Make sure to replace them with values listed below.  If you don't see one of these lines, copy and paste it into `wp-config.php`.
+  
+  ```
+  define( 'DB_NAME', 'wordpress' );
+  define( 'DB_USER', 'wordpress' );
+  define( 'DB_PASSWORD', 'wordpress' );
+  define( 'WP_HOME', 'http://callrail.local' );  
+  define( 'WP_SITEURL', '' );
+  ```
+6. Run the command `vagrant up` from the `vagrantpress` directory (this will take a while, it installs everything you need)
+7. Open your browser to http://callrail.local
 
-## Working with the environment
+NOTE: For the time being, you still have to run `compass watch` from the `marketing-site` on your computer if you're making CSS changes.
 
-To log in to the local Wordpress installation:
+## Other Stuff
 
-`http://vagrantpress.dev/wp-admin/` the username is `admin`, the password is `vagrant`.
+### Vagrant commands (run these from withint the `vagrantpress` directory):
++ `vagrant up` - starts the VM for the Marketing site, makes it avaiable at `http://callrail.dev`
++ `vagrant halt` - stops the VM, `http://callrail.dev` will no longer be available
++ `vagrant destroy` - wipes out the VM, next time you run `vagrant up` it will re-install everything
++ `vagrant ssh` - provides you with command line access to the VM
 
-You can access phpMyAdmin:
+When you're done working on the site, run `vagrant halt` from the `vagrantpress` directory to shut the VM down.  When you need to work on the site again, you can run `vagrant up` from within the `vagrantpress` directory any time.
 
-`http://vagrantpress.dev/phpmyadmin/` with username `wordpress`, password `wordpress`.
-
-## A Few Details
-
-* If you're needing a password (for anything - including mysql, it should be `vagrant`)
-
-## Common Troubleshooting Tips
-
- * Have a look at the [troubleshooting guide][ts]
-
-## Getting Help
-
-Feel free to file an issue, create a pull request, or contact me at [my website][chadthompson].
-
-[chadthompson]: http://chadthompson.me
-[ts]: https://github.com/chad-thompson/vagrantpress/wiki/Troubleshooting-tips
+### TODO
++ Add ruby/compass to the VM and configure the VM to run it on boot (also maybe provide a log for this?)
++ Put the SQL dump and `wp-config.php` files on S3 and have the VM retrieve them on provisioning to eliminate the manual step
++ troubleshoot some images not loading correctly
++ Use Chef instead of Puppet for provisioning script :neckbeard: 

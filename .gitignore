@@ -5,3 +5,6 @@ latest.tar.gz
 ./wordpress/
 /wordpress/
 /wp-tests/
+
+/puppet/modules/wordpress/files/wordpress-db.sql
+/puppet/modules/wordpress/files/wp-config.php

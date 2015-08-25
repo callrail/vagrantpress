@@ -9,10 +9,12 @@ Vagrant.configure("2") do |config|
   config.vm.provision :shell, path: "files/scripts/setup.sh"
 
   # setup virtual hostname and provision local IP
-  config.vm.hostname = "vagrantpress.dev"
+  config.vm.hostname = "callrail.local"
   config.vm.network :private_network, :ip => "192.168.50.4"
-  config.hostsupdater.aliases = %w{www.vagrantpress.dev}
   config.hostsupdater.remove_on_suspend = true
+
+  config.vm.synced_folder "../marketing-site", "/vagrant/wordpress"
+
 
   config.vm.provision :puppet do |puppet|
     puppet.manifests_path = "puppet/manifests"
