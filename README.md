@@ -34,7 +34,7 @@ NOTE: For the time being, you still have to run `compass watch` from the `market
 
 ## Other Stuff
 
-### Vagrant commands (run these from withint the `vagrantpress` directory):
+### Vagrant commands (run these from within the `vagrantpress` directory):
 + `vagrant up` - starts the VM for the Marketing site, makes it avaiable at `http://callrail.dev`
 + `vagrant halt` - stops the VM, `http://callrail.dev` will no longer be available
 + `vagrant destroy` - wipes out the VM, next time you run `vagrant up` it will re-install everything
