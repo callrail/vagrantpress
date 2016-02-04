@@ -1,5 +1,7 @@
 # CallRail Marketing Site VagrantPress
 
+[![Join the chat at https://gitter.im/callrail/vagrantpress](https://badges.gitter.im/callrail/vagrantpress.svg)](https://gitter.im/callrail/vagrantpress?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 *VagrantPress* is a packaged development environment for developing WordPress themes and modules.  
 This repo is intended to serve as a means to quickly set up a development environment for the [CallRail Marketing Site](https://github.com/callrail/marketing-site).
 
